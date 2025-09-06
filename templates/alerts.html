@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% block title %}Alerts{% endblock %}
+
+{% block search_bar %}
+<div class="search responsive-search">
+    <i class="ri-search-line"></i>
+    <input type="text" placeholder="Search alerts/assets..." id="searchInput">
+</div>
+{% endblock search_bar %}
+
+{% block body %}
+<h3 class="page-title">Alerts Overview</h3>
+<p class="p-name">Last updated: {{ last_updated }}</p>
+
+<div id="asset-inventory-section" class="responsive-flex-wrapper">
+    <div class="board-top">
+        <div class="left">
+            <span class="board-title">Alerts</span>
+        </div>
+        <div class="right">
+            <div class="filter-container">
+                <button id="filterBtn" class="filter-btn"><i class="ri-filter-3-fill"></i>Filter</button>
+                <div id="filterPanel" class="filter-panel">
+                    <div class="filter-heading">
+                        <h3>Filter Alerts</h3>
+                    </div>
+                    <div class="status-section">
+                        <label>Severity</label><br>
+                        <div class="check-boxs">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="filter-warning" value="warning">
+                                <label for="filter-warning">Warning</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="filter-critical" value="critical">
+                                <label for="filter-critical">Critical</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="type-section">
+                        <label>Status</label><br>
+                        <div class="check-boxs">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="filter-server" value="active">
+                                <label for="filter-server">Active</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="filter-storage" value="resolved">
+                                <label for="filter-storage">Resolved</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button class="clear-btn" id="clearFilter">Clear</button>
+                        <button class="apply-btn" id="applyFilter">Apply Filters</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="board">
+    <div class="table-container">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Alert ID</td>
+                    <td>Date/Time</td>
+                    <td>Asset ID</td>
+                    <td>Severity</td>
+                    <td>Alert Type</td>
+                    <td>Message</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr class="alert-row" data-severity="{{ alert.severity }}" data-status="{{ alert.status }}">
+                    <td class="alert-id">{{ "ALT" ~ "%03d"|format(alert.id) }}</td>
+                    <td>{{ alert.updated_at.strftime("%Y-%m-%d %I:%M %p") }}</td>
+                    <td class="asset-id">{{ alert.asset_id }}</td>
+                    <td><span class="badge {{ alert.severity }}">{{ alert.severity.capitalize() }}</span></td>
+                    <td>{{ alert.alert_type }}</td>
+                    <td>{{ alert.message }}</td>
+                    <td><span class="badge {{ alert.status }}">{{ alert.status.capitalize() }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tbody id="no-results-message" style="display: none;">
+                <tr>
+                    <td colspan="7" style="text-align: center; font-weight: bold;">No Alerts Found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination responsive-pagination">
+        <span id="pagination-info"></span>
+        <div class="pagination-buttons">
+            <button id="prev-btn" disabled>
+                <i class="ri-arrow-left-s-line"></i> Previous
+            </button>
+            <button id="next-btn">
+                Next <i class="ri-arrow-right-s-line"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim().toLowerCase();
+
+        filteredRows = rows.filter(row => {
+            const alertId = row.querySelector(".alert-id").textContent.toLowerCase();
+            const assetId = row.querySelector(".asset-id").textContent.toLowerCase();
+            return alertId.includes(query) || assetId.includes(query);
+        });
+
+        currentPage = 1;
+        renderTable();
+    });
+
+    const rows = Array.from(document.querySelectorAll(".alert-row"));
+    let filteredRows = [...rows];
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const paginationInfo = document.getElementById("pagination-info");
+
+    function renderTable() {
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const totalRows = filteredRows.length;
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const noResultsMessage = document.getElementById("no-results-message");
+        const resultInfo = document.getElementById("pagination-info");
+
+        rows.forEach(row => row.style.display = "none");
+
+        if (totalRows === 0) {
+            noResultsMessage.style.display = "";
+            resultInfo.textContent = "No results";
+
+            prevBtn.disabled = true;
+            nextBtn.disabled = true;
+            return;
+        }
+
+        noResultsMessage.style.display = "none";
+
+        filteredRows.slice(start, end).forEach(row => {
+            row.style.display = "";
+        });
+
+        resultInfo.textContent = `Showing ${start + 1} to ${Math.min(end, totalRows)} of ${totalRows} results`;
+
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage >= totalPages;
+    }
+
+    renderTable();
+
+    prevBtn.addEventListener("click", () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderTable();
+        }
+    });
+
+    nextBtn.addEventListener("click", () => {
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderTable();
+        }
+    });
+
+    // Filter logic
+    const applyBtn = document.getElementById("applyFilter") || document.querySelector(".apply-btn");
+    const clearBtn = document.getElementById("clearFilter") || document.querySelector(".clear-btn");
+
+    applyBtn.addEventListener("click", () => {
+        const warning = document.getElementById("filter-warning").checked;
+        const critical = document.getElementById("filter-critical").checked;
+        const active = document.getElementById("filter-server").checked;
+        const resolved = document.getElementById("filter-storage").checked;
+
+        filteredRows = rows.filter(row => {
+            const severity = row.getAttribute("data-severity");
+            const status = row.getAttribute("data-status");
+
+            const checkSeverity =
+                (!warning && !critical) ||
+                (warning && severity === "warning") ||
+                (critical && severity === "critical");
+
+            const checkStatus =
+                (!active && !resolved) ||
+                (active && status === "active") ||
+                (resolved && status === "resolved");
+
+            return checkSeverity && checkStatus;
+        });
+
+        currentPage = 1;
+        renderTable();
+        filterPanel.style.display = "none";
+    });
+
+    clearBtn.addEventListener("click", () => {
+        document.getElementById("filter-warning").checked = false;
+        document.getElementById("filter-critical").checked = false;
+        document.getElementById("filter-server").checked = false;
+        document.getElementById("filter-storage").checked = false;
+
+        filteredRows = [...rows];
+        currentPage = 1;
+        renderTable();
+        filterPanel.style.display = "none";
+    });
+
+    const filterBtn = document.getElementById("filterBtn");
+    const filterPanel = document.getElementById("filterPanel");
+    filterBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        filterPanel.style.display = filterPanel.style.display === "block" ? "none" : "block";
+    });
+    document.addEventListener("click", function (event) {
+        if (!filterPanel.contains(event.target) && !filterBtn.contains(event.target)) {
+            filterPanel.style.display = "none";
+        }
+    });
+</script>
+
+{% endblock body %}

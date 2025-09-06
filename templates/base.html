@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+</head>
+
+<body>
+    <section id="top-nav">
+        <div class="navbar1">
+            <div class="logo">
+                <button id="hamburger" aria-label="Open menu">
+                    <i class="ri-menu-line"></i>
+                </button>
+                <img src="/static/logo.png" alt="">
+                <h3>Asset Inventory & Health Dashboard</h3>
+            </div>
+            <div class="nav_right">
+                {% block search_bar %}{% endblock search_bar %}
+            </div>
+        </div>
+    </section>
+    <div id="main-container">
+        <section id="menu">
+            <div class="items">
+                <li><i class="ri-dashboard-line"></i><a href="{{ url_for('dashboard') }}"
+                        onclick="location.reload();">Dashboard</a>
+                </li>
+                <li><i class="ri-server-line"></i><a href="{{ url_for('assets') }}">Assets</a></li>
+                <li><i class="ri-alert-line"></i><a href="{{ url_for('alerts') }}">Alerts</a></li>
+                <hr class="menu-divider">
+                <li><i class="ri-logout-box-r-line"></i><a href="{{ url_for('logout') }}">Logout</a></li>
+            </div>
+        </section>
+        <section id="interface">
+            {% block body %}{% endblock body %}
+        </section>
+        <script>
+            document.getElementById('hamburger')
+                .addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    document.body.classList.toggle('menu-open');
+                });
+
+            document.addEventListener('click', (e) => {
+                const menu = document.getElementById('menu');
+                const hamburger = document.getElementById('hamburger');
+
+                if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+                    document.body.classList.remove('menu-open');
+                }
+            });
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h3 style="font-family: ui-sans-serif system-ui, sans-serif; font-weight: 600; font-size: 1.3rem; line-height: 2rem;">
+    Dashboard Overview</h3>
+<p class="p-name">Last updated: {{ last_updated }}</p>
+<div class="values">
+    <div class="val-box">
+        <i class="ri-server-line"></i>
+        <div>
+            <span>Total Assets</span>
+            <h3>{{total_assets}}</h3>
+        </div>
+    </div>
+    <div class="val-box">
+        <i class="ri-heart-pulse-line"></i>
+        <div>
+            <span>Healthy Assets</span>
+            <h3>{{healthy_assets}}</h3>
+        </div>
+    </div>
+    <div class="val-box">
+        <i class="ri-alert-line"></i>
+        <div>
+            <span>Warning Assets</span>
+            <h3>{{warning_assets}}</h3>
+        </div>
+    </div>
+    <div class="val-box">
+        <i class="ri-error-warning-line"></i>
+        <div>
+            <span>Critical Assets</span>
+            <h3>{{critical_assets}}</h3>
+        </div>
+    </div>
+</div>
+<div class="charts-section">
+    <div class="chart-container">
+        <h4>Asset Type Distribution</h4>
+        <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-container">
+        <h4>Asset Health Distribution</h4>
+        <div class="pie-chart-wrapper">
+            <canvas id="pieChart"></canvas>
+            <div class="status-summary">
+                <div class="status-item">
+                    <div class="status-dot healthy"></div>
+                    <span class="status-label">Healthy</span>
+                    <span class="status-percentage"></span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot warning"></div>
+                    <span class="status-label">Warning</span>
+                    <span class="status-percentage"></span>
+                </div>
+                <div class="status-item">
+                    <div class="status-dot critical"></div>
+                    <span class="status-label">Critical</span>
+                    <span class="status-percentage"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    Chart.defaults.font.size = 14;
+
+    const barData = {
+        labels: ['Server', 'Storage', 'Other'],
+        datasets: [{
+            label: 'Asset Type Count',
+            data: {{ asset_type_counts | tojson }},
+    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b']
+        }]
+    };
+
+    // Calculate percentages dynamically
+    const totalAssets = {{ total_assets }};
+    const healthyPct = (({{ healthy_assets }} / totalAssets) * 100).toFixed(1);
+    const warningPct = (({{ warning_assets }} / totalAssets) * 100).toFixed(1);
+    const criticalPct = (({{ critical_assets }} / totalAssets) * 100).toFixed(1);
+
+    const pieData = {
+        labels: [`Healthy ${healthyPct}%`, `Warning ${warningPct}%`, `Critical ${criticalPct}%`],
+        datasets: [{
+            label: ' Health Distribution',
+            data: {{ [healthy_assets, warning_assets, critical_assets] | tojson }},
+        backgroundColor: ['#22c55e', '#eab308', '#ef4444']
+        }]
+    };
+
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: barData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: window.devicePixelRatio || 2,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    min: 0,
+                    ticks: {
+                        stepSize: 20,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('pieChart'), {
+        type: 'pie',
+        data: pieData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            devicePixelRatio: window.devicePixelRatio || 2,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector('.status-item:nth-child(1) .status-percentage').textContent = healthyPct + '%';
+        document.querySelector('.status-item:nth-child(2) .status-percentage').textContent = warningPct + '%';
+        document.querySelector('.status-item:nth-child(3) .status-percentage').textContent = criticalPct + '%';
+    });
+</script>
+
+{% endblock body %}

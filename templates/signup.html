@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='login_signup.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Flash message outside signup box -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-container">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      <span>{{ message }}</span>
+      <button class="close-btn" onclick="this.parentElement.remove();">&times;</button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <div class="wrapper">
+    <div class="form-heading">
+      <h2>Register</h2>
+      <p>Asset Inventory & Health Dashboard</p>
+    </div>
+    <!-- REGISTER FORM -->
+    <p id="error-message"></p>
+    <form id="form" method="POST" action="/signup" class="register-form" autocomplete="off">
+      <div class="input-box">
+        <input type="email" class="input-field" id="email-input" name="email" placeholder=" " required>
+        <label for="email-input" class="label">Email</label>
+        <i class='ri-mail-line icon'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" class="input-field" id="password-input" name="password" placeholder=" " required>
+        <label for="password-input" class="label">Password</label>
+        <i class='ri-lock-line icon' id="password-icon"></i>
+      </div>
+      <div class="input-box">
+        <input type="password" class="input-field" id="confirm-password-input" name="confirm_password" placeholder=" "
+          required>
+        <label for="confirm-password-input" class="label">Confirm Password</label>
+        <i class='ri-lock-line icon' id="confirm-password-icon"></i>
+      </div>
+      <div class="input-box">
+        <button class="btn-submit" id="SignUpBtn" type="submit">Sign Up</button>
+      </div>
+      <div class="switch-form">
+        <span>Already have an Account? <a href="{{ url_for('login') }}">login</a></span>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.flash-message').forEach(el => {
+        el.style.transition = 'opacity 1s ease';
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 1000);
+      });
+    }, 10000);
+
+    // Password confirmation validation
+    document.getElementById('form').addEventListener('submit', function (e) {
+      const password = document.getElementById('password-input').value;
+      const confirmPassword = document.getElementById('confirm-password-input').value;
+      const errorMessage = document.getElementById('error-message');
+
+      if (password !== confirmPassword) {
+        e.preventDefault();
+        errorMessage.textContent = 'Passwords do not match!';
+        errorMessage.style.color = 'red';
+        errorMessage.style.display = 'block';
+        return false;
+      } else {
+        errorMessage.style.display = 'none';
+      }
+    });
+
+    function showHideEyeIcon(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+
+      input.addEventListener('input', function () {
+        if (this.value.length > 0) {
+          icon.classList.remove('ri-lock-line');
+          icon.classList.add('ri-eye-line');
+          icon.onclick = () => togglePassword(inputId, icon);
+        } else {
+          icon.classList.remove('ri-eye-line', 'ri-eye-off-line');
+          icon.classList.add('ri-lock-line');
+          icon.onclick = null;
+        }
+      });
+    }
+
+    function togglePassword(inputId, icon) {
+      const input = document.getElementById(inputId);
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('ri-eye-line');
+        icon.classList.add('ri-eye-off-line');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('ri-eye-off-line');
+        icon.classList.add('ri-eye-line');
+      }
+    }
+
+    showHideEyeIcon('password-input', 'password-icon');
+    showHideEyeIcon('confirm-password-input', 'confirm-password-icon');
+  </script>
+</body>
+
+</html>
