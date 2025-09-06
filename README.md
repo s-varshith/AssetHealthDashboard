@@ -40,7 +40,7 @@ Admins can **monitor performance, track alerts, and export reports** in multiple
 
 ## Tech Stack
 
-- **Backend**: Flask, SQLAlchemy
+- **Backend**: Python, Flask, SQLAlchemy
 - **Database**: SQLite (lightweight and file-based)  
 - **Frontend**: HTML5, CSS3, JavaScript, Jinja2 Templates  
 - **Authentication & Security**: Werkzeug password hashing  
