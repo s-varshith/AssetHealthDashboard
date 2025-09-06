@@ -9,12 +9,12 @@ A comprehensive web-based monitoring dashboard built with Python-Flask for track
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
+- [Project Snapshots](#project-snapshots)
+- [Reports and Exports](#reports-and-exports)
 
 ## Overview
 
-Flask-based web application that provides a **real-time view of IT assets and their health status**. The application fetches data from a JSON file, which is automatically updated across the website - powering KPI cards, charts, and asset tables.  
+Flask-based web application that provides a **real-time view of IT assets and their health status**. The application fetches data from a JSON file, which is automatically updated across the website, powering KPI cards, charts, and asset tables.  
 Admins can **monitor performance, track alerts, and export reports** in multiple formats. The dashboard ensures that IT operations remain transparent, efficient, and proactive.
 
 ## Features
@@ -91,23 +91,23 @@ Admins can **monitor performance, track alerts, and export reports** in multiple
 
 ## Project Snapshots
 
-### Dashboard View
+### Dashboard View:
 ![Dashboard Screenshot](readme_img_doc/dashboard_img.png)
 
-### Asset View
+### Asset View:
 ![Asset](readme_img_doc/asset_img.png)
 
-### Alerts View
+### Alerts View:
 ![Alerts](readme_img_doc/alert_img.png)
  
-## Reports & Exports
+## Reports and Exports
 
 You can export monitoring data as **CSV** or **PDF**.
 
-### CSV Export (Preview)
+### CSV Export (Preview):
 ![CSV Export Screenshot](readme_img_doc/asset_export_csv_img.png)  
 [Download Sample CSV](readme_img_doc/Asset_inventory.csv)
 
-### PDF Export (Preview)
+### PDF Export (Preview):
 ![PDF Export Screenshot](readme_img_doc/asset_export_pdf_img.png)  
 [Download Sample PDF](readme_img_doc/Asset_inventory.pdf)
