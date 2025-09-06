@@ -14,8 +14,14 @@ A comprehensive web-based monitoring dashboard built with Python-Flask for track
 
 ## Overview
 
-Flask-based web application that provides a **real-time view of IT assets and their health status**. The application fetches data from a JSON file, which is automatically updated across the website, powering KPI cards, charts, and asset tables.  
-Admins can **monitor performance, track alerts, and export reports** in multiple formats. The dashboard ensures that IT operations remain transparent, efficient, and proactive.
+Flask-based web application that provides a **real-time view of IT assets and their health status**.  
+The application fetches data from a JSON file, which is automatically updated across the website, powering KPI cards, charts, and asset tables.  
+
+Admins can **monitor performance, track alerts, and export reports** in multiple formats, ensuring IT operations remain transparent, efficient, and proactive.  
+
+The dashboard also includes an **Alerts Page**, which is automatically updated from the underlying **SQL database**.  
+This enables real-time issue tracking and provides an accurate, up-to-date view of asset health.
+
 
 ## Features
 
