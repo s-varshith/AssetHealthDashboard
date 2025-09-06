@@ -1,0 +1,51 @@
+Asset ID,Type,Device Name,Status,CPU,Memory,Storage
+asset_001,Storage,storage-node-01,OK,15%,12%,37%
+asset_002,Server,web-server-01,Critical,65%,78%,78%
+asset_003,Network Equipment,core-switch-01,Warning,25%,32%,50%
+asset_004,Server,db-server-prod,Critical,82%,89%,92%
+asset_005,Storage,backup-storage-01,Critical,18%,22%,90%
+asset_006,Virtualization Host,vmware-host-01,Warning,45%,67%,80%
+asset_007,Network Equipment,firewall-01,Warning,35%,42%,52%
+asset_008,Server,app-server-02,Critical,52%,48%,70%
+asset_009,Storage,san-storage-02,Warning,28%,31%,78%
+asset_010,Load Balancer,f5-bigip-01,Warning,38%,44%,60%
+asset_011,Server,mail-server-01,Warning,29%,35%,70%
+asset_012,Network Equipment,edge-router-01,OK,22%,28%,40%
+asset_013,Backup Appliance,veeam-backup-01,Critical,42%,56%,96%
+asset_014,Server,test-server-01,Critical,15%,18%,25%
+asset_015,Storage,archive-storage-01,Critical,8%,12%,92%
+asset_016,Server,monitoring-server,Warning,33%,41%,80%
+asset_017,Network Equipment,wireless-controller,Warning,19%,25%,60%
+asset_018,Server,file-server-01,Warning,24%,29%,78%
+asset_019,Virtualization Host,hyper-v-host-02,Critical,58%,72%,71%
+asset_020,Network Equipment,access-switch-02,Critical,31%,37%,40%
+asset_021,Server,dev-server-03,Critical,41%,38%,58%
+asset_022,Storage,nas-storage-03,Warning,16%,21%,89%
+asset_023,UPS,ups-datacenter-01,OK,5%,8%,20%
+asset_024,Server,erp-server-01,Critical,76%,84%,76%
+asset_025,Network Equipment,vpn-concentrator,Warning,27%,33%,22%
+asset_026,Server,log-server-01,Critical,21%,26%,68%
+asset_027,Storage,flash-storage-01,OK,23%,28%,75%
+asset_028,Print Server,print-server-01,Warning,12%,15%,20%
+asset_029,Server,proxy-server-01,Critical,44%,52%,72%
+asset_030,Network Equipment,distribution-switch,Warning,29%,34%,35%
+asset_031,Server,dns-server-01,Critical,18%,22%,60%
+asset_032,Storage,object-storage-01,Warning,34%,41%,78%
+asset_033,Security Appliance,ids-ips-01,Warning,39%,45%,77%
+asset_034,Server,cache-server-01,Critical,56%,63%,92%
+asset_035,Network Equipment,wan-optimizer-01,Warning,32%,38%,52%
+asset_036,Server,analytics-server,Critical,88%,92%,95%
+asset_037,Storage,tier2-storage-01,Warning,19%,24%,84%
+asset_038,Terminal Server,rds-server-01,Critical,61%,74%,67%
+asset_039,Network Equipment,optical-transport,OK,15%,18%,27%
+asset_040,Server,streaming-server,Critical,73%,79%,75%
+asset_041,Environmental Monitor,datacenter-env-01,OK,7%,11%,30%
+asset_042,Server,docker-host-01,Critical,67%,81%,90%
+asset_043,Network Equipment,metro-ethernet,OK,26%,31%,30%
+asset_044,Storage,hybrid-cloud-storage,Critical,41%,48%,89%
+asset_045,Server,ai-training-server,Critical,94%,96%,96%
+asset_046,KVM Switch,kvm-console-01,Critical,3%,6%,20%
+asset_047,Network Equipment,sdwan-controller,Critical,48%,54%,78%
+asset_048,Server,kubernetes-master,Critical,59%,71%,68%
+asset_049,Video Conferencing,vc-codec-01,Critical,22%,28%,45%
+asset_050,Server,edge-compute-01,Warning,36%,42%,70%

@@ -92,15 +92,22 @@ Admins can **monitor performance, track alerts, and export reports** in multiple
 ## Project Snapshots
 
 ### Dashboard View
-![Dashboard Screenshot](static/images/dashboard_preview.png)
+![Dashboard Screenshot](readme_img_doc/dashboard_img.png)
 
-### Asset Table
-![Asset Table](static/images/asset_table.png)
+### Asset View
+![Asset](readme_img_doc/asset_img.png)
 
-### Alerts & KPIs
-![Alerts and KPIs](static/images/alerts_kpi.png)
+### Alerts View
+![Alerts](readme_img_doc/alert_img.png)
+ 
+## Reports & Exports
 
-### Export Report
-![Export Report](static/images/export_report.png)
+You can export monitoring data as **CSV** or **PDF**.
 
-    
+### CSV Export (Preview)
+![CSV Export Screenshot](readme_img_doc/asset_export_csv_img.png)  
+[Download Sample CSV](readme_img_doc/Asset_inventory.csv)
+
+### PDF Export (Preview)
+![PDF Export Screenshot](readme_img_doc/asset_export_pdf_img.png)  
+[Download Sample PDF](readme_img_doc/Asset_inventory.pdf)
